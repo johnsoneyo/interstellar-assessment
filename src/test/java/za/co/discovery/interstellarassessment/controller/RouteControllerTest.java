@@ -92,4 +92,25 @@ class RouteControllerTest {
         verify(repository).findAll();
         verifyNoMoreInteractions(repository);
     }
+
+    @SneakyThrows
+    @Test
+    void findByIdShouldReturn404_WhenResultIsReturned() {
+
+        // Given
+        Long routeId = 1L;
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/routes/"+routeId).accept(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(jsonPath("$.message", Matchers.is(String.format("route id %d not found", routeId))))
+                .andExpect(status().isNotFound());
+
+        // Then
+        verify(repository).findById(routeId);
+        verifyNoMoreInteractions(repository);
+    }
+
+
+
 }

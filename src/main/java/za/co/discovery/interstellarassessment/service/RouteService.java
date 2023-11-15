@@ -13,4 +13,6 @@ public interface RouteService {
     void create(RouteDto route);
 
     List<RouteDto> findAll();
+
+    RouteDto findById(Long routeId);
 }
