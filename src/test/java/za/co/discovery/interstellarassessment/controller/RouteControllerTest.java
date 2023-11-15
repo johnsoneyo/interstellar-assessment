@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import za.co.discovery.interstellarassessment.bo.Planet;
 import za.co.discovery.interstellarassessment.bo.RouteBo;
 import za.co.discovery.interstellarassessment.controller.advice.ErrorResponseAdvice;
 import za.co.discovery.interstellarassessment.repository.RouteRepository;
@@ -17,10 +18,12 @@ import za.co.discovery.interstellarassessment.service.impl.DefaultRouteService;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,6 +70,26 @@ class RouteControllerTest {
                 .andExpect(status().isBadRequest());
 
         // Then
+        verifyNoMoreInteractions(repository);
+    }
+
+
+    @SneakyThrows
+    @Test
+    void findAllShouldReturn200_WhenResultIsReturned() {
+
+        // Given
+        List<RouteBo>routes = List.of(new RouteBo(Planet.A, Planet.B, Double.valueOf(4.5)));
+        when(repository.findAll()).thenReturn(routes);
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/routes").accept(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(jsonPath("$", Matchers.hasSize(1)))
+                .andExpect(status().isOk());
+
+        // Then
+        verify(repository).findAll();
         verifyNoMoreInteractions(repository);
     }
 }

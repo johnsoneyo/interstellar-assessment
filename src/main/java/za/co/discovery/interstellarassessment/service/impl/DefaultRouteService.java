@@ -8,6 +8,9 @@ import za.co.discovery.interstellarassessment.dto.RouteDto;
 import za.co.discovery.interstellarassessment.repository.RouteRepository;
 import za.co.discovery.interstellarassessment.service.RouteService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -17,15 +20,14 @@ public class DefaultRouteService implements RouteService {
 
     @Override
     public void create(RouteDto route) {
-        repository.save(mapToBo(route));
+        repository.save(new RouteBo(route.getOrigin(), route.getDestination(), route.getDistance()));
     }
 
-    /**
-     * Function to map dto to business object
-     * @param route
-     * @return
-     */
-    private RouteBo mapToBo (final RouteDto route) {
-        return new RouteBo(route.getOrigin(), route.getDestination(), route.getDistance());
+    @Override
+    public List<RouteDto> findAll() {
+        return repository.findAll()
+                .stream().map(routeBo -> new RouteDto(routeBo.getOrigin(),
+                        routeBo.getDestination(), routeBo.getDistance()))
+                .collect(Collectors.toList());
     }
 }
