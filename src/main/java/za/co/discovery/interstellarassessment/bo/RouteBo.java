@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Getter
 @Setter
-public class RouteBo extends AbstractBo{
+public class RouteBo extends AbstractBo {
 
     @Enumerated(value = EnumType.STRING)
     @Column

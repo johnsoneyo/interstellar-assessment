@@ -1,6 +1,7 @@
 /**
  * <p>
  * This package contains classes used for jpa persistence
+ *
  * @see org.springframework.data.repository.Repository
  * </p>
  */

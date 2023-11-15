@@ -4,11 +4,11 @@ server:
 
 spring:
   datasource:
-     url: jdbc:derby:interstellar;create=true
+    url: jdbc:derby:interstellar;create=true
 
   jpa:
-     properties:
-          hibernate:
-           dialect: org.hibernate.dialect.DerbyTenSevenDialect
-     hibernate:
-        ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.DerbyTenSevenDialect
+    hibernate:
+      ddl-auto: update
