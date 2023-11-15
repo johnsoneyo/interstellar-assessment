@@ -24,6 +24,7 @@ public class RouteDto {
 
     /**
      * An expliicit constructor is declared with {@link JsonCreator} for mapping and to maintain immutability
+     *
      * @param origin
      * @param destination
      * @param distance

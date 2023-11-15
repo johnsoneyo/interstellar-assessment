@@ -14,19 +14,16 @@ import java.util.List;
 public interface RouteService {
 
     /**
-     *
      * @param route payload to create a route, requires all fields during creation
      */
     void create(RouteDto route);
 
     /**
-     *
      * @return lists of all routes
      */
     List<RouteDto> findAll();
 
     /**
-     *
      * @param routeId primary key identifer for the record in {@link za.co.discovery.interstellarassessment.bo.RouteBo}
      * @return mapped route data
      * @throws za.co.discovery.interstellarassessment.exception.RouteNotFoundException
@@ -34,10 +31,14 @@ public interface RouteService {
     RouteDto findById(Long routeId) throws RouteNotFoundException;
 
     /**
-     *
-     * @param routeId primary key identifer for the record in {@link za.co.discovery.interstellarassessment.bo.RouteBo}
+     * @param routeId  primary key identifer for the record in {@link za.co.discovery.interstellarassessment.bo.RouteBo}
      * @param routeDto patch update payload for the request
      * @throws za.co.discovery.interstellarassessment.exception.RouteNotFoundException should be thrown for every implementation
      */
     void update(Long routeId, UpdateRouteDto routeDto) throws RouteNotFoundException;
+
+    /**
+     * @param routeId
+     */
+    void delete(Long routeId) throws RouteNotFoundException;
 }

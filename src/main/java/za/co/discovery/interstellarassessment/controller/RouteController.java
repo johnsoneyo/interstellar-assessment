@@ -3,6 +3,7 @@ package za.co.discovery.interstellarassessment.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,5 +48,11 @@ public class RouteController {
     @PatchMapping("/{routeId}")
     void update(@PathVariable Long routeId, @RequestBody UpdateRouteDto routeDto) {
         routeService.update(routeId, routeDto);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{routeId}")
+    void delete(@PathVariable Long routeId) {
+        routeService.delete(routeId);
     }
 }

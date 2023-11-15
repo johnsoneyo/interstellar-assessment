@@ -40,7 +40,7 @@ class DefaultRouteServiceTest {
     DestinationRoutePatch routePatch;
 
     @BeforeEach
-    void setup () {
+    void setup() {
         repository = mock(RouteRepository.class);
         routePatch = mock(DestinationRoutePatch.class);
         defaultRouteService = new DefaultRouteService(repository, List.of(routePatch));
@@ -102,7 +102,6 @@ class DefaultRouteServiceTest {
     }
 
 
-
     @Test
     void findById_ShouldReturnRoute_WhenRoutePresent() {
 
@@ -116,7 +115,7 @@ class DefaultRouteServiceTest {
 
         // Then
         Assertions.assertThat(routeDto)
-                        .isNotNull();
+                .isNotNull();
         verify(repository).findById(routeId);
         verifyNoMoreInteractions(repository);
     }
@@ -138,6 +137,21 @@ class DefaultRouteServiceTest {
         verify(repository).save(route);
         verify(routePatch).patch(updateRouteDto, route);
         verifyNoMoreInteractions(updateRouteDto, route, repository, routePatch);
+    }
+
+    @Test
+    void delete() {
+
+        Long routeId = 1L;
+        RouteBo route = mock(RouteBo.class);
+        when(repository.findById(routeId)).thenReturn(Optional.of(route));
+
+        // When
+        defaultRouteService.delete(routeId);
+
+        // Then
+        verify(repository).delete(route);
+        verifyNoMoreInteractions(route, repository);
     }
 
 }

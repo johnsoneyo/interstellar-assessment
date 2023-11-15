@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -178,6 +179,44 @@ class RouteControllerTest {
 
         // Then
         verify(repository).findById(routeId);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @SneakyThrows
+    @Test
+    void delete_ShouldThrow404NotFound_WhenRouteNotPresent() {
+
+        // Given
+        Long routeId = 1L;
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/routes/" + routeId))
+                .andDo(print())
+                .andExpect(jsonPath("$.message", Matchers.is(String.format("route id %d not found", routeId))))
+                .andExpect(status().isNotFound());
+
+        // Then
+        verify(repository).findById(routeId);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @SneakyThrows
+    @Test
+    void delete_ShouldReturn204_WhenRouteIsPresent() {
+
+        // Given
+        Long routeId = 1L;
+        RouteBo routeBo = mock(RouteBo.class);
+        when(repository.findById(routeId)).thenReturn(Optional.of(routeBo));
+
+        // When
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/routes/" + routeId))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        // Then
+        verify(repository).findById(routeId);
+        verify(repository).delete(routeBo);
         verifyNoMoreInteractions(repository);
     }
 

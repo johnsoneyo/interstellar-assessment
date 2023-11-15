@@ -15,14 +15,15 @@ public class UpdateRouteDto {
     Double distance;
 
     /**
-     * An expliicit constructor is declared with {@link JsonCreator} for mapping and to maintain immutability
+     * An explicit constructor is declared with {@link JsonCreator} for mapping and to maintain immutability
+     *
      * @param origin
      * @param destination
      * @param distance
      */
     @JsonCreator
     public UpdateRouteDto(@JsonProperty("origin") Planet origin, @JsonProperty("destination") Planet destination,
-                    @JsonProperty("distance") Double distance) {
+                          @JsonProperty("distance") Double distance) {
         this.origin = origin;
         this.destination = destination;
         this.distance = distance;
