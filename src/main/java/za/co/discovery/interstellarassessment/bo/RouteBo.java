@@ -22,10 +22,10 @@ public class RouteBo extends AbstractBo {
 
     @Enumerated(value = EnumType.STRING)
     @Column
-    Planet origin;
+    private Planet origin;
     @Enumerated(value = EnumType.STRING)
     @Column
-    Planet destination;
+    private Planet destination;
     @Column
-    Double distance;
+    private Double distance;
 }
