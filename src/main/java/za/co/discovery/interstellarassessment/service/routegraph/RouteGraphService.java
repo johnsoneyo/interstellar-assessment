@@ -38,7 +38,7 @@ public class RouteGraphService {
                 .collect(Collectors.toList());
 
         List<RouteDto> configuredRoutes = routeService.findAll();
-        if(!configuredRoutes.isEmpty()) {
+        if (!configuredRoutes.isEmpty()) {
             routeService.findAll()
                     .forEach(defineNodeEdges(nodes));
 

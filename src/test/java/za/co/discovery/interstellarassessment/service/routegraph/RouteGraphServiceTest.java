@@ -64,7 +64,7 @@ class RouteGraphServiceTest {
         // Then
         Assertions.assertThat(routeGraph.getNodes())
                 .isNotNull()
-                .filteredOn("planet", Planet.U )
+                .filteredOn("planet", Planet.U)
                 .extracting("planet", "shortestPath", "distance")
                 .contains(tuple(Planet.U, new LinkedList<>(List.of(new RouteGraph.Node(Planet.A),
                         new RouteGraph.Node(Planet.C), new RouteGraph.Node(Planet.F),

@@ -3,6 +3,9 @@ package za.co.discovery.interstellarassessment.bo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * Class contains node constant name definition
+ */
 @AllArgsConstructor
 @Getter
 public enum Planet {
