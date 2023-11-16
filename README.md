@@ -25,7 +25,7 @@ through the galaxy to any of the planets represented by the other nodes.
 - Maven 3.6.x
 
 ## Libraries
-
+- [Caffeine Cache](https://github.com/ben-manes/caffeine)
 - Spring Boot (3.1.0)
 - H2 Database
 - Junit
@@ -42,6 +42,7 @@ have a csv containing route data and we want to be able to continue generating r
 - Java 17 is more consistent with Spring Boot version 3.1.0 and provides jaxb2 dependency OOTB keeping dependency transitive
 this choice is made to avoid dependency conflicts as we want reliance on jakarta apis and not javax.
 - Lombok makes life easy.
+- Caffeine caching is used to load graph into memory cache for faster processing time
 
 ## Local Setup and Deployment
 
@@ -91,7 +92,7 @@ The application also exposes a webservice that can be viewed from this endpoint
 > open http://localhost:8081/ws/routes.wsdl
 ```
 
-To make a WS request here is an example, [Documentation can be found here](docs/API_DOCS.md#SOAP)
+To make a WS request here is an example
 
 Request
 
@@ -124,6 +125,7 @@ Response
    </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
 ```
+[Extra Documentation can be found here](docs/API_DOCS.md#SOAP)
 
 ## Core Logic
 
@@ -134,7 +136,11 @@ in [route graph service file](https://github.com/johnsoneyo/interstellar-assessm
 ```
 package za.co.discovery.assignment.service.routegraph;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import za.co.discovery.assignment.bo.Planet;
 import za.co.discovery.assignment.dto.RouteDto;
@@ -142,6 +148,7 @@ import za.co.discovery.assignment.exception.InvalidSourceConfigException;
 import za.co.discovery.assignment.exception.RouteException;
 import za.co.discovery.assignment.service.RouteService;
 
+import java.time.Duration;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -152,20 +159,32 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * This class contains only one public method {@link RouteGraphService#get()} which returns  a mapping of all nodes in the graph to source node {@link Planet#A}
+ * This class contains only one public method {@link RouteGraphService#getGraph()} ()} which returns  a mapping of all nodes in the graph to source node {@link Planet#A}
+ *
+ * @see RouteGraphService#getGraph() uses caffeine to load graph in cache
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class RouteGraphService {
 
     private final RouteService routeService;
 
+    @Getter
+    private LoadingCache<String, RouteGraph> graph = Caffeine.newBuilder()
+            .maximumSize(10_000)
+            .expireAfterWrite(Duration.ofMinutes(30))
+            .refreshAfterWrite(Duration.ofMinutes(1))
+            .build(key -> get(key));
+
     /**
+     * @param key key used by cache to load graph in the caffeine
      * @return returns a graph of all established shortest paths to a source {@link Planet#A}
      * @throws InvalidSourceConfigException when source node is not configured
      * @throws InvalidSourceConfigException when configured route list is empty
      */
-    public RouteGraph get() {
+    private RouteGraph get(final String key) {
+        log.info("Loading graph into cache for key {}", key);
 
         final List<RouteGraph.Node> nodes = EnumSet.allOf(Planet.class)
                 .stream()
@@ -275,5 +294,6 @@ public class RouteGraphService {
     }
 
 }
+
 
 ```
