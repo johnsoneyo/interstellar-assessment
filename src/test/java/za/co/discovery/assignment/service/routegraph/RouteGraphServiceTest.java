@@ -59,7 +59,7 @@ class RouteGraphServiceTest {
         when(routeService.findAll()).thenReturn(routes);
 
         // When
-        RouteGraph routeGraph = routeGraphService.get();
+        RouteGraph routeGraph = routeGraphService.getGraph().get("graph");
 
         // Then
         Assertions.assertThat(routeGraph.getNodes())
@@ -76,7 +76,7 @@ class RouteGraphServiceTest {
     @Test
     void getShouldThrowRouteException_WhenConfigurationRouteIsNotDefined() {
 
-        Assertions.assertThatThrownBy(() -> routeGraphService.get())
+        Assertions.assertThatThrownBy(() -> routeGraphService.getGraph().get("graph"))
                 .isInstanceOf(RouteException.class)
                 .hasMessage("configured routes not defined");
     }

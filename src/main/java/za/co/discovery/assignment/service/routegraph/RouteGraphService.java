@@ -1,5 +1,8 @@
 package za.co.discovery.assignment.service.routegraph;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import za.co.discovery.assignment.bo.Planet;
@@ -8,6 +11,7 @@ import za.co.discovery.assignment.exception.InvalidSourceConfigException;
 import za.co.discovery.assignment.exception.RouteException;
 import za.co.discovery.assignment.service.RouteService;
 
+import java.time.Duration;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -18,7 +22,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * This class contains only one public method {@link RouteGraphService#get()} which returns  a mapping of all nodes in the graph to source node {@link Planet#A}
+ * This class contains only one public method {@link RouteGraphService#getGraph()} ()} which returns  a mapping of all nodes in the graph to source node {@link Planet#A}
+ *
+ * @see RouteGraphService#getGraph() uses caffeine to load graph in cache
  */
 @RequiredArgsConstructor
 @Service
@@ -26,12 +32,22 @@ public class RouteGraphService {
 
     private final RouteService routeService;
 
+
+    @Getter
+    private LoadingCache<String, RouteGraph> graph = Caffeine.newBuilder()
+            .maximumSize(10_000)
+            .expireAfterWrite(Duration.ofMinutes(5))
+            .refreshAfterWrite(Duration.ofMinutes(1))
+            .build(key -> get(key));
+
     /**
+     * @param key cache key value which is a redundant for the function
      * @return returns a graph of all established shortest paths to a source {@link Planet#A}
      * @throws InvalidSourceConfigException when source node is not configured
      * @throws InvalidSourceConfigException when configured route list is empty
      */
-    public RouteGraph get() {
+    private RouteGraph get(final String key) {
+
 
         final List<RouteGraph.Node> nodes = EnumSet.allOf(Planet.class)
                 .stream()

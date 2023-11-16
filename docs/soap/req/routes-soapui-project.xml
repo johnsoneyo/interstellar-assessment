@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="a7c4717c-0e65-4d57-8181-f7c4308f4dc7" activeEnvironment="Default" name="routes" resourceRoot=""
+                    soapui-version="5.7.1" xmlns:con="http://eviware.com/soapui/config">
+    <con:settings/>
+    <con:interface xsi:type="con:WsdlInterface" id="105eb177-452b-490f-85f3-7c534acf64ab" wsaVersion="NONE"
+                   name="RoutePortSoap11" type="wsdl"
+                   bindingName="{http://assignment.discovery.co.za/gen}RoutePortSoap11" soapVersion="1_1"
+                   anonymous="optional" definition="http://localhost:8081/ws/routes.wsdl"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <con:settings/>
+        <con:definitionCache type="TEXT" rootPart="http://localhost:8081/ws/routes.wsdl">
+            <con:part>
+                <con:url>http://localhost:8081/ws/routes.wsdl</con:url>
+                <con:content><![CDATA[<wsdl:definitions targetNamespace="http://assignment.discovery.co.za/gen" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://assignment.discovery.co.za/gen" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://assignment.discovery.co.za/gen">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://assignment.discovery.co.za/gen" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="getShortestPathRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="planet" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getShortestPathResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="distance" type="xs:double"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="paths" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getShortestPathResponse">
+    <wsdl:part element="tns:getShortestPathResponse" name="getShortestPathResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getShortestPathRequest">
+    <wsdl:part element="tns:getShortestPathRequest" name="getShortestPathRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RoutePort">
+    <wsdl:operation name="getShortestPath">
+      <wsdl:input message="tns:getShortestPathRequest" name="getShortestPathRequest"></wsdl:input>
+      <wsdl:output message="tns:getShortestPathResponse" name="getShortestPathResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RoutePortSoap11" type="tns:RoutePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getShortestPath">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getShortestPathRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getShortestPathResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RoutePortService">
+    <wsdl:port binding="tns:RoutePortSoap11" name="RoutePortSoap11">
+      <soap:address location="http://localhost:8081/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content>
+                <con:type>http://schemas.xmlsoap.org/wsdl/</con:type>
+            </con:part>
+        </con:definitionCache>
+        <con:endpoints>
+            <con:endpoint>http://localhost:8081/ws</con:endpoint>
+        </con:endpoints>
+        <con:operation id="5f7a75c7-f566-4f2a-b42d-ac00b1de6924" isOneWay="false" action="" name="getShortestPath"
+                       bindingOperationName="getShortestPath" type="Request-Response"
+                       outputName="getShortestPathResponse" inputName="getShortestPathRequest"
+                       receivesAttachments="false" sendsAttachments="false" anonymous="optional">
+            <con:settings/>
+            <con:call id="aecf038c-7161-4a04-9aec-f2cb6410193b" name="Request 1">
+                <con:settings>
+                    <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/>
+                    </con:setting>
+                </con:settings>
+                <con:encoding>UTF-8</con:encoding>
+                <con:endpoint>http://localhost:8081/ws</con:endpoint>
+                <con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gen="http://assignment.discovery.co.za/gen">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <gen:getShortestPathRequest>
+         <gen:planet>A</gen:planet>
+      </gen:getShortestPathRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request>
+                <con:credentials>
+                    <con:authType>No Authorization</con:authType>
+                </con:credentials>
+                <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+                <con:jmsPropertyConfig/>
+                <con:wsaConfig mustUnderstand="NONE" version="200508"
+                               action="http://assignment.discovery.co.za/gen/RoutePort/getShortestPathRequest"/>
+                <con:wsrmConfig version="1.2"/>
+            </con:call>
+        </con:operation>
+    </con:interface>
+    <con:properties/>
+    <con:wssContainer/>
+    <con:oAuth2ProfileContainer/>
+    <con:oAuth1ProfileContainer/>
+</con:soapui-project>

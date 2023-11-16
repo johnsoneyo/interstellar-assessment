@@ -2,10 +2,9 @@ package za.co.discovery.assignment.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import za.co.discovery.assignment.bo.Planet;
-
-import javax.validation.constraints.NotNull;
 
 
 /**

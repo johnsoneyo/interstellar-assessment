@@ -18,21 +18,33 @@ through the galaxy to any of the planets represented by the other nodes.
 - The process continues until all the nodes in the graph have been added to the path. This way, we have a path that
   connects the source node to all other nodes following the shortest path possible to reach each node.
 
-## Requirements
+## Run Requirements
 
-    - JDK 11 (+)
-    - Maven 3.6.x
+- JDK 17 (+)
+- Maven 3.6.x
+
+## Libraries
+
+- Spring Boot (3.1.0)
+- Junit
+- Mockito
+- Apache Derby
+- Lombok
+- Spring Data Jpa
+- Spring Web
 
 ## Local Setup and Deployment
 
 Clone project and run from terminal with command below
 
-Compile xjc stub classes 
+Compile xjc stub classes
+
 ```
 > ./mvnw compile
 ```
 
 Then run application
+
 ```
 > ./mvnw spring-boot:run
 ```
@@ -61,9 +73,22 @@ spring:
 
 ```
 
-## Core Logic 
-The core logic resides in [route graph service file](https://github.com/johnsoneyo/interstellar-assessment/blob/master/src/main/java/za/co/discovery/assignment/service/routegraph/RouteGraphService.java)
+## REST
+
+## Web Service
+
+The application also exposes a webservice that can be viewed from this endpoint
+
+```
+> open http://localhost:8081/ws/routes.wsdl
+```
+
+## Core Logic
+
+The core logic resides
+in [route graph service file](https://github.com/johnsoneyo/interstellar-assessment/blob/master/src/main/java/za/co/discovery/assignment/service/routegraph/RouteGraphService.java)
 , the RouteGraph object contains all shortest path distance from source (A -Earth) to all nodes
+
 ```
 package za.co.discovery.assignment.service.routegraph;
 

@@ -1,6 +1,7 @@
 package za.co.discovery.assignment.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,6 @@ import za.co.discovery.assignment.dto.RouteDto;
 import za.co.discovery.assignment.dto.UpdateRouteDto;
 import za.co.discovery.assignment.service.RouteService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
