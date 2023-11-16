@@ -51,12 +51,15 @@ class DefaultRouteServiceTest {
     void create() {
 
         // Given
-        RouteDto routeDto = new RouteDto(Planet.A, Planet.B, Double.valueOf(0.45));
+        Planet origin = Planet.A;
+        Planet destination = Planet.B;
+        RouteDto routeDto = new RouteDto(origin, destination, Double.valueOf(0.45));
 
         // When
         defaultRouteService.create(routeDto);
 
         // Then
+        verify(repository).existsByOriginAndDestination(origin, destination);
         verify(repository).save(any(RouteBo.class));
         verifyNoMoreInteractions(repository);
     }

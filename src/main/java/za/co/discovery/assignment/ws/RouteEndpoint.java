@@ -15,7 +15,9 @@ import za.co.discovery.assignment.service.routegraph.RouteGraphService;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * This class exposes the webservice to query shortest path to source by {@link Planet}
+ */
 @RequiredArgsConstructor
 @Endpoint
 public class RouteEndpoint {
@@ -28,14 +30,17 @@ public class RouteEndpoint {
     @ResponsePayload
     public GetShortestPathResponse getShortestPath(@RequestPayload GetShortestPathRequest request) {
         Planet planet = Planet.valueOf(request.getPlanet());
-        GetShortestPathResponse response = new GetShortestPathResponse();
-        RouteGraph graph = graphService.getGraph().get("graph");
+
+        final GetShortestPathResponse response = new GetShortestPathResponse();
+        RouteGraph graph = graphService.getGraph().get("webservice");
         RouteGraph.Node node = getNode(graph, planet);
 
         response.setDistance(node.getDistance());
-        node.getShortestPath().stream().map(RouteGraph.Node::getPlanet)
-                .map(Planet::getName)
+        node.getShortestPath().stream()
+                .map(RouteGraph.Node::getPlanet)
+                .map(Planet::name)
                 .forEach(response.getPaths()::add);
+
         return response;
     }
 

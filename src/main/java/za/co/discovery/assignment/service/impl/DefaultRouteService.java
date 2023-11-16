@@ -3,9 +3,11 @@ package za.co.discovery.assignment.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import za.co.discovery.assignment.bo.Planet;
 import za.co.discovery.assignment.bo.RouteBo;
 import za.co.discovery.assignment.dto.RouteDto;
 import za.co.discovery.assignment.dto.UpdateRouteDto;
+import za.co.discovery.assignment.exception.RouteConflictException;
 import za.co.discovery.assignment.exception.RouteNotFoundException;
 import za.co.discovery.assignment.repository.RouteRepository;
 import za.co.discovery.assignment.service.RoutePatch;
@@ -29,6 +31,11 @@ public class DefaultRouteService implements RouteService {
 
     @Override
     public void create(final RouteDto route) {
+        Planet origin = route.getOrigin();
+        Planet destination = route.getDestination();
+        if (repository.existsByOriginAndDestination(origin, destination)) {
+            throw new RouteConflictException("origin destination pair already exists");
+        }
         repository.save(new RouteBo(route.getOrigin(), route.getDestination(), route.getDistance()));
     }
 

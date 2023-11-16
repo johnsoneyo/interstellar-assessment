@@ -18,6 +18,7 @@ through the galaxy to any of the planets represented by the other nodes.
 - The process continues until all the nodes in the graph have been added to the path. This way, we have a path that
   connects the source node to all other nodes following the shortest path possible to reach each node.
 
+
 ## Run Requirements
 
 - JDK 17 (+)
@@ -26,16 +27,23 @@ through the galaxy to any of the planets represented by the other nodes.
 ## Libraries
 
 - Spring Boot (3.1.0)
+- H2 Database
 - Junit
 - Mockito
-- Apache Derby
 - Lombok
 - Spring Data Jpa
 - Spring Web
 
-## Local Setup and Deployment
+## Assumptions / Rationale
 
-Clone project and run from terminal with command below
+- H2 database is favourited over derby database due to sequence strategy in persistence and the ability
+to continue id generation if a table has already used up identifiers from an allocation, in this case we
+have a csv containing route data and we want to be able to continue generating routes from the REST API
+- Java 17 is more consistent with Spring Boot version 3.1.0 and provides jaxb2 dependency OOTB keeping dependency transitive
+this choice is made to avoid dependency conflicts as we want reliance on jakarta apis and not javax.
+- Lombok makes life easy.
+
+## Local Setup and Deployment
 
 Compile xjc stub classes
 
@@ -74,13 +82,47 @@ spring:
 ```
 
 ## REST
-
+[Documentation found here](docs/API_DOCS.md#REST)
 ## Web Service
 
 The application also exposes a webservice that can be viewed from this endpoint
 
 ```
 > open http://localhost:8081/ws/routes.wsdl
+```
+
+To make a WS request here is an example, [Documentation can be found here](docs/API_DOCS.md#SOAP)
+
+Request
+
+```
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:gen="http://assignment.discovery.co.za/gen">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <gen:getShortestPathRequest>
+         <gen:planet>U</gen:planet>
+      </gen:getShortestPathRequest>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+Response
+
+```
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header/>
+   <SOAP-ENV:Body>
+      <ns2:getShortestPathResponse xmlns:ns2="http://assignment.discovery.co.za/gen">
+         <ns2:distance>39.59</ns2:distance>
+         <ns2:paths>A</ns2:paths>
+         <ns2:paths>C</ns2:paths>
+         <ns2:paths>F</ns2:paths>
+         <ns2:paths>J</ns2:paths>
+         <ns2:paths>R</ns2:paths>
+         <ns2:paths>P</ns2:paths>
+      </ns2:getShortestPathResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 ```
 
 ## Core Logic

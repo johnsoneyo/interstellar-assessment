@@ -1,0 +1,27 @@
+### Get all routes
+GET http://localhost:8081/api/v1/routes
+
+### Create route
+POST http://localhost:8081/api/v1/routes
+Content-Type: application/json
+
+{
+  "origin": "X",
+  "destination": "X",
+  "distance": 34.5
+}
+
+
+### Get by route id
+GET http://localhost:8081/api/v1/routes/{{routeId}}
+
+### Update route by id
+PATCH http://localhost:8081/api/v1/routes/{{routeId}}
+Content-Type: application/json
+
+{
+  "origin": "X"
+}
+
+### Delete by route id
+DELETE http://localhost:8081/api/v1/routes/{{routeId}}

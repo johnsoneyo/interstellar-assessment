@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import za.co.discovery.assignment.dto.ErrorDto;
+import za.co.discovery.assignment.exception.RouteConflictException;
 import za.co.discovery.assignment.exception.RouteNotFoundException;
 
 import java.util.Set;
@@ -30,5 +31,9 @@ public class ErrorResponseAdvice {
         return new ResponseEntity<>(new ErrorDto(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(RouteConflictException.class)
+    protected ResponseEntity<ErrorDto> handleConflictException(RouteConflictException ex) {
+        return new ResponseEntity<>(new ErrorDto(ex.getMessage()), HttpStatus.CONFLICT);
+    }
 
 }

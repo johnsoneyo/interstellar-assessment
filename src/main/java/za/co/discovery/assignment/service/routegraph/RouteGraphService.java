@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import za.co.discovery.assignment.bo.Planet;
 import za.co.discovery.assignment.dto.RouteDto;
@@ -28,26 +29,26 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class RouteGraphService {
 
     private final RouteService routeService;
 
-
     @Getter
     private LoadingCache<String, RouteGraph> graph = Caffeine.newBuilder()
             .maximumSize(10_000)
-            .expireAfterWrite(Duration.ofMinutes(5))
+            .expireAfterWrite(Duration.ofMinutes(30))
             .refreshAfterWrite(Duration.ofMinutes(1))
             .build(key -> get(key));
 
     /**
-     * @param key cache key value which is a redundant for the function
+     * @param key key used by cache to load graph in the caffeine
      * @return returns a graph of all established shortest paths to a source {@link Planet#A}
      * @throws InvalidSourceConfigException when source node is not configured
      * @throws InvalidSourceConfigException when configured route list is empty
      */
     private RouteGraph get(final String key) {
-
+        log.info("Loading graph into cache for key {}", key);
 
         final List<RouteGraph.Node> nodes = EnumSet.allOf(Planet.class)
                 .stream()

@@ -1,0 +1,73 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-route-table
+      author: jeyo
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: origin
+                  type: varchar(2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: destination
+                  type: varchar(2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: distance
+                  type: double
+                  constraints:
+                    nullable: false
+
+            tableName: route
+  - changeSet:
+      context: jeyo
+      failOnError: true
+      id: seed-route-data
+      author: jeyo
+      changes:
+        - loadData:
+            columns:
+              - column:
+                  header: ROUTE_ID
+                  name: id
+                  type: NUMERIC
+              - column:
+                  header: PLANET_ORIGIN
+                  name: origin
+                  type: STRING
+              - column:
+                  header: PLANET_DESTINATION
+                  name: destination
+                  type: STRING
+              - column:
+                  header: DISTANCE
+                  name: distance
+                  type: NUMERIC
+
+
+            commentLineStartsWith: //
+            encoding: UTF-8
+            file: csv/route.csv
+            quotchar: ''''
+            relativeToChangelogFile: true
+            separator: ','
+            tableName: route
+            usePreparedStatements: true
+  - changeSet:
+      id: route-seq-create
+      author: jeyo
+      changes:
+        - sql:
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: CREATE SEQUENCE ROUTE_SEQ START WITH 46 INCREMENT BY 1;

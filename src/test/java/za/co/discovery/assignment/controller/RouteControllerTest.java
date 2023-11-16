@@ -60,6 +60,7 @@ class RouteControllerTest {
 
         // Then
         verify(repository).save(any(RouteBo.class));
+        verify(repository).existsByOriginAndDestination(any(Planet.class), any(Planet.class));
         verifyNoMoreInteractions(repository);
     }
 
