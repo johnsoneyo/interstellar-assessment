@@ -1,6 +1,6 @@
 ## API Client Documentation
 
-### REST 
+### REST
 
 ```
 ### Get all routes

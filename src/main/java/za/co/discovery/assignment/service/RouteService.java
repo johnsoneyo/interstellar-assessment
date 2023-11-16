@@ -3,6 +3,7 @@ package za.co.discovery.assignment.service;
 import za.co.discovery.assignment.bo.RouteBo;
 import za.co.discovery.assignment.dto.RouteDto;
 import za.co.discovery.assignment.dto.UpdateRouteDto;
+import za.co.discovery.assignment.exception.RouteConflictException;
 import za.co.discovery.assignment.exception.RouteNotFoundException;
 
 import java.util.List;
@@ -16,8 +17,9 @@ public interface RouteService {
 
     /**
      * @param route payload to create a route, requires all fields during creation
+     * @throws za.co.discovery.assignment.exception.RouteConflictException if origin destination pair is not unique
      */
-    void create(RouteDto route);
+    void create(RouteDto route) throws RouteConflictException;
 
     /**
      * @return lists of all routes
