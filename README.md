@@ -27,6 +27,12 @@ through the galaxy to any of the planets represented by the other nodes.
 
 Clone project and run from terminal with command below
 
+Compile xjc stub classes 
+```
+> ./mvnw compile
+```
+
+Then run application
 ```
 > ./mvnw spring-boot:run
 ```
