@@ -35,7 +35,7 @@ through the galaxy to any of the planets represented by the other nodes.
 - Spring Web
 
 ## Test Limitations
-There is no UI to test the application however testing of the graph api is detailed [here](##Swagger)
+There is no UI to test the application however testing of the graph api is detailed [here](#swagger)
 
 ## Assumptions / Rationale
 
