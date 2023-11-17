@@ -37,6 +37,7 @@ through the galaxy to any of the planets represented by the other nodes.
 ## Test Limitations
 There is no UI to test the application however testing of the graph api is detailed [here](#swagger)
 
+
 ## Assumptions / Rationale
 
 - H2 database is favourited over derby database due to sequence strategy in persistence and the ability
@@ -46,6 +47,10 @@ There is no UI to test the application however testing of the graph api is detai
   transitive, This choice is made to avoid dependency conflicts as we want reliance on jakarta apis and not javax.
 - Lombok makes life easy.
 - Caffeine caching is used to load graph into memory cache for faster processing time
+
+## Technical Debt
+- Since caffeine is used to load already prepopulated graph in cache, when a route ( node to edge ) is added from rest api, 
+the cache will load only from memory until eviction time elapses , hence we need to reload the cache from the database to keep data in sync any time an edge is created.
 
 ## Local Setup and Deployment
 
