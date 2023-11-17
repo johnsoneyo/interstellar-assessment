@@ -43,8 +43,7 @@ There is no UI to test the application however testing of the graph api is detai
   to continue id generation if a table has already used up identifiers from an allocation, in this case we
   have a csv containing route data and we want to be able to continue generating routes from the REST API
 - Java 17 is more consistent with Spring Boot version 3.1.0 and provides jaxb2 dependency OOTB keeping dependency
-  transitive
-  this choice is made to avoid dependency conflicts as we want reliance on jakarta apis and not javax.
+  transitive, This choice is made to avoid dependency conflicts as we want reliance on jakarta apis and not javax.
 - Lombok makes life easy.
 - Caffeine caching is used to load graph into memory cache for faster processing time
 
