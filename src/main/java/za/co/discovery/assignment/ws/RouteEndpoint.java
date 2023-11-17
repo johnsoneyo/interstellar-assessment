@@ -11,6 +11,7 @@ import za.co.discovery.assignment.gen.GetShortestPathRequest;
 import za.co.discovery.assignment.gen.GetShortestPathResponse;
 import za.co.discovery.assignment.service.routegraph.RouteGraph;
 import za.co.discovery.assignment.service.routegraph.RouteGraphService;
+import za.co.discovery.assignment.util.GraphUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class RouteEndpoint {
 
         final GetShortestPathResponse response = new GetShortestPathResponse();
         RouteGraph graph = graphService.getGraph().get("webservice");
-        RouteGraph.Node node = getNode(graph, planet);
+        RouteGraph.Node node = GraphUtils.getNode(graph, planet);
 
         response.setDistance(node.getDistance());
         node.getShortestPath().stream()

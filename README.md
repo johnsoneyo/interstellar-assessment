@@ -34,6 +34,9 @@ through the galaxy to any of the planets represented by the other nodes.
 - Spring Data Jpa
 - Spring Web
 
+## Test Limitations
+There is no UI to test the application however testing of the graph api is detailed [here](##Swagger)
+
 ## Assumptions / Rationale
 
 - H2 database is favourited over derby database due to sequence strategy in persistence and the ability
@@ -83,9 +86,26 @@ spring:
 
 ```
 
-## REST
+## Swagger  
+Swagger testing of the graph api is available via [Swagger](http://localhost:8081/swagger-ui/index.html)
+or via terminal launch after application starts up
 
-[Documentation found here](docs/API_DOCS.md#REST)
+```
+> open http://localhost:8081/swagger-ui/index.html
+```
+
+Below is an example of the response while making curl to find shortest path from U to source
+```
+> curl -X 'GET' \
+  'http://localhost:8081/api/v1/shortest-path/U' \
+  -H 'accept: */*'
+```
+
+![](img.png)
+
+## Route Node and Edge REST Documentation
+
+[Documentation](docs/API_DOCS.md#REST)
 
 ## Web Service
 
